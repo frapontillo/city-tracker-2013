@@ -5,5 +5,14 @@
     <string name="action_settings">Settings</string>
     <string name="action_new_report">Add a new report</string>
     <string name="hello_world">Hello world!</string>
+    <string name="info">Write Problem</string>
+
+    <string name="send">Send</string>
+
+    <string name="photo">Take Photo</string>
+
+    <string name="hpriority">High Priority?</string>
+
+
 
 </resources>
