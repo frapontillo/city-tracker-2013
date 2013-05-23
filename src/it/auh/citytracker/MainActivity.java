@@ -1,5 +1,6 @@
 package it.auh.citytracker;
 
+import it.auh.citytracker.activity.SenderActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

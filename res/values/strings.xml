@@ -3,6 +3,7 @@
 	<!-- ACTIVITY LABELS -->
     <string name="app_name">CityTracker</string>
     <string name="send_activity_label">New report</string>
+    <string name="title_activity_sender">Send</string>
     
     <string name="action_settings">Settings</string>
     <string name="action_new_report">Add a new report</string>

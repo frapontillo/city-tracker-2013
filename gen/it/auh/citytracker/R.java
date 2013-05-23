@@ -1072,6 +1072,7 @@ containing a value of this type.
         public static final int photo_view=0x7f02008b;
     }
     public static final class id {
+        public static final int ImageView=0x7f04003c;
         public static final int abs__action_bar=0x7f040024;
         public static final int abs__action_bar_container=0x7f040023;
         public static final int abs__action_bar_subtitle=0x7f040015;
@@ -1111,30 +1112,32 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040017;
         public static final int abs__title=0x7f04001f;
         public static final int abs__up=0x7f04000b;
-        public static final int action_new_report=0x7f040042;
-        public static final int address=0x7f04003f;
-        public static final int button_send_report=0x7f040038;
-        public static final int checkbox_high=0x7f040039;
-        public static final int date=0x7f04003e;
+        public static final int action_new_report=0x7f040044;
+        public static final int action_settings=0x7f040045;
+        public static final int address=0x7f040041;
+        public static final int buttonTakephoto=0x7f04003d;
+        public static final int button_send_report=0x7f040039;
+        public static final int checkbox_high=0x7f040038;
+        public static final int date=0x7f040040;
         public static final int disableHome=0x7f040009;
         public static final int edit_problem=0x7f04003a;
         public static final int edit_query=0x7f04002a;
         public static final int homeAsUp=0x7f040006;
         public static final int hybrid=0x7f040013;
         public static final int imageView=0x7f04003b;
-        public static final int imageView1=0x7f040040;
+        public static final int imageView1=0x7f040042;
         public static final int listMode=0x7f040002;
         public static final int map=0x7f040036;
-        public static final int name=0x7f04003c;
+        public static final int name=0x7f04003e;
         public static final int none=0x7f040010;
         public static final int normal=0x7f040001;
-        public static final int problem=0x7f040041;
+        public static final int problem=0x7f040043;
         public static final int satellite=0x7f040011;
         public static final int send_problem=0x7f040037;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
-        public static final int surname=0x7f04003d;
+        public static final int surname=0x7f04003f;
         public static final int tabMode=0x7f040003;
         public static final int terrain=0x7f040012;
         public static final int useLogo=0x7f040004;
@@ -1167,14 +1170,16 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_main=0x7f030015;
         public static final int activity_new_report=0x7f030016;
-        public static final int info_account=0x7f030017;
-        public static final int photo=0x7f030018;
-        public static final int problem_description=0x7f030019;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
-        public static final int sherlock_spinner_item=0x7f03001b;
+        public static final int activity_sender=0x7f030017;
+        public static final int info_account=0x7f030018;
+        public static final int photo=0x7f030019;
+        public static final int problem_description=0x7f03001a;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
+        public static final int sherlock_spinner_item=0x7f03001c;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
+        public static final int sender=0x7f0b0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1216,8 +1221,8 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090007;
-        public static final int action_new_report=0x7f090025;
-        public static final int action_settings=0x7f090024;
+        public static final int action_new_report=0x7f090026;
+        public static final int action_settings=0x7f090025;
         /**  ACTIVITY LABELS 
          */
         public static final int app_name=0x7f090022;
@@ -1285,11 +1290,11 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f09001b;
-        public static final int error_connection=0x7f09002d;
-        public static final int hpriority=0x7f090029;
-        public static final int info=0x7f090026;
-        public static final int loading=0x7f09002b;
-        public static final int loading_wait=0x7f09002c;
+        public static final int error_connection=0x7f09002e;
+        public static final int hpriority=0x7f09002a;
+        public static final int info=0x7f090027;
+        public static final int loading=0x7f09002c;
+        public static final int loading_wait=0x7f09002d;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -1301,10 +1306,11 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f09001f;
         public static final int location_client_ulr_inactive_age_unknown=0x7f090020;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f090021;
-        public static final int photo=0x7f090028;
-        public static final int send=0x7f090027;
+        public static final int photo=0x7f090029;
+        public static final int send=0x7f090028;
         public static final int send_activity_label=0x7f090023;
-        public static final int wait_for_location=0x7f09002a;
+        public static final int title_activity_sender=0x7f090024;
+        public static final int wait_for_location=0x7f09002b;
     }
     public static final class style {
         /** 
