@@ -2,6 +2,9 @@ package it.auh.citytracker.activity;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import it.auh.citytracker.CloudCallbackHandler;
@@ -19,9 +22,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -36,12 +43,13 @@ import android.widget.Toast;
 
 public class MainActivity extends SherlockFragmentCloudBackendActivity
 		implements ConnectionCallbacks, OnConnectionFailedListener,
-		LocationListener {
+		LocationListener, OnMarkerClickListener, OnInfoWindowClickListener {
 
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
 	private List<CloudEntity> mIssues;
 	private boolean alreadyCentered;
+	private HashMap<Marker, CloudEntity> mHashMap;
 
 	// These settings are the same as the settings for the map. They will in
 	// fact give you updates at
@@ -163,18 +171,41 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	 */
 	private void updateIssuesOnMap() {
 		mMap.clear();
+		mMap.setOnInfoWindowClickListener(this);
+		mHashMap = new HashMap<Marker, CloudEntity>();
+		
 		for (CloudEntity issue : mIssues) {
 			BigDecimal lat = (BigDecimal) issue.get(Tables.Issue.LATITUDE);
 			BigDecimal lon = (BigDecimal) issue.get(Tables.Issue.LONGITUDE);
 			String desc = (String) issue.get(Tables.Issue.DESCRIPTION);
+			Date date = issue.getCreatedAt();
 			boolean high = (Boolean) issue.get(Tables.Issue.HIGH_PRIORITY);
 			float color = high ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_AZURE;
 			
-			mMap.addMarker(new MarkerOptions()
+			Marker mMarker = mMap.addMarker(new MarkerOptions()
 		        .position(new LatLng(lat.doubleValue(), lon.doubleValue()))
-		        .title(StringUtils.substring(desc, 0, 10))
+		        .title(SimpleDateFormat.getDateInstance().format(date))
+		        .snippet(StringUtils.ellipsis(desc, 0, 50))
 		        .icon(BitmapDescriptorFactory.defaultMarker(color)));
+			
+			mHashMap.put(mMarker, issue);
 		}
+	}
+	
+	@Override
+	public void onInfoWindowClick(Marker marker) {
+		CloudEntity issue = mHashMap.get(marker);
+		Intent i = new Intent(this, DetailActivity.class);
+		i.putExtra(Consts.BUNDLE_USER, issue.getCreatedBy());
+		i.putExtra(Consts.BUNDLE_DATE, issue.getCreatedAt().getTime());
+		i.putExtra(Consts.BUNDLE_DESCRIPTION, (String)issue.get(Tables.Issue.DESCRIPTION));
+		i.putExtra(Consts.BUNDLE_HIGH_PRIORITY, (Boolean)issue.get(Tables.Issue.HIGH_PRIORITY));
+		startActivity(i);
+	}
+	
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		return false;
 	}
 
 	private void handleEndpointException(IOException e) {
@@ -248,5 +279,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	public void onConnectionFailed(ConnectionResult result) {
 		// Do nothing
 	}
+
+
 
 }

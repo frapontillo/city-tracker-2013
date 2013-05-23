@@ -58,7 +58,11 @@
         <activity
             android:name="it.auh.citytracker.activity.SendActivity"
             android:label="@string/send_activity_label">
-            
+        </activity>
+        
+        <activity
+            android:name="it.auh.citytracker.activity.DetailActivity"
+            android:label="@string/title_activity_detail">
         </activity>
         
         <meta-data

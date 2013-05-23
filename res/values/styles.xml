@@ -15,6 +15,12 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@color/window_bg</item>
+    </style>
+    
+    <style name="CardsStyle">
+        <item name="android:layout_margin">@dimen/cards_margin</item>
+        <item name="android:background">@drawable/card_shape</item>
     </style>
 
 </resources>

@@ -4,10 +4,16 @@
     <string name="app_name">CityTracker</string>
     <string name="send_activity_label">New report</string>
     <string name="title_activity_sender">Send</string>
+    <string name="title_activity_detail">Issue details</string>
     
     <string name="action_settings">Settings</string>
     <string name="action_new_report">Add a new report</string>
     <string name="info">Write Problem</string>
+    <string name="attach_image">Attach an image</string>
+    <string name="issue_description">Issue description</string>
+    <string name="attachment">Attachment</string>
+    <string name="important">Important</string>
+    <string name="hint_issue_description">Extensive description of the issue</string>
 
     <string name="send">Send</string>
     <string name="photo">Take Photo</string>

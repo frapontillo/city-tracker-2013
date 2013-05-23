@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -27,7 +27,7 @@ public class SendActivity extends SherlockFragmentActivity implements
 	
 	private Button mSend;
 	private EditText mDesc;
-	private CheckBox mHigh;
+	private ToggleButton mHigh;
 	
 	private RequestManager mRequestManager;
 	private String description;
@@ -48,7 +48,7 @@ public class SendActivity extends SherlockFragmentActivity implements
 
 		mSend = (Button) findViewById(R.id.button_send_report);
 		mDesc = (EditText) findViewById(R.id.edit_problem);
-		mHigh = (CheckBox) findViewById(R.id.checkbox_high);
+		mHigh = (ToggleButton) findViewById(R.id.toggle_important);
 		
 		mSend.setOnClickListener(new OnClickListener() {
 			@Override
