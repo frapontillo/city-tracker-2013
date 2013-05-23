@@ -1,0 +1,3 @@
+[submodule "submods/ActionBarSherlock"]
+	path = submods/ActionBarSherlock
+	url = git://github.com/JakeWharton/ActionBarSherlock.git
