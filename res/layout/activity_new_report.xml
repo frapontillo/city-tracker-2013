@@ -20,7 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/send"
+        android:id="@+id/button_send_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/send_problem"
@@ -29,11 +29,11 @@
         android:text="@string/send" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkbox_high"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/send"
-        android:layout_alignRight="@+id/send"
+        android:layout_above="@+id/button_send_report"
+        android:layout_alignRight="@+id/button_send_report"
         android:text="@string/hpriority"
         android:textSize="20sp" />
 

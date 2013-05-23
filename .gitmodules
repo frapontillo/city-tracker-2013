@@ -1,3 +1,6 @@
 [submodule "submods/ActionBarSherlock"]
 	path = submods/ActionBarSherlock
 	url = git://github.com/JakeWharton/ActionBarSherlock.git
+[submodule "submods/DataDroid"]
+	path = submods/DataDroid
+	url = git://github.com/foxykeep/DataDroid.git

@@ -5,12 +5,12 @@ import java.util.List;
 
 import it.auh.citytracker.CloudCallbackHandler;
 import it.auh.citytracker.CloudEntity;
+import it.auh.citytracker.Consts;
 import it.auh.citytracker.R;
 import it.auh.citytracker.CloudQuery.Order;
 import it.auh.citytracker.CloudQuery.Scope;
 import it.auh.citytracker.cloud.SherlockFragmentCloudBackendActivity;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.location.LocationClient;
@@ -22,6 +22,7 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -56,7 +57,13 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO: open SendActivity
+		if (item.getItemId() == R.id.action_new_report) {
+			// Opens SendActivity
+			Intent intent = new Intent(this, SendActivity.class);
+			intent.putExtra(Consts.BUNDLE_LATITUDE, getLatitude());
+			intent.putExtra(Consts.BUNDLE_LONGITUDE, getLongitude());
+			startActivity(intent);
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -81,6 +88,22 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 			mLocationClient.disconnect();
 		}
 	}
+	
+	private double getLatitude() {
+		Location loc = mLocationClient.getLastLocation();
+		if (loc != null) {
+			return loc.getLatitude();
+		}
+		return 0;
+	}
+	
+	private double getLongitude() {
+		Location loc = mLocationClient.getLastLocation();
+		if (loc != null) {
+			return loc.getLongitude();
+		}
+		return 0;
+	}
 
 	/**
 	 * Executes "SELECT * FROM Issues ORDER BY _createdAt DESC LIMIT 50"
@@ -102,7 +125,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		};
 
 		// execute the query with the handler
-		getCloudBackend().listByKind("Issues_1", CloudEntity.PROP_CREATED_AT,
+		getCloudBackend().listByKind("Issue_1", CloudEntity.PROP_CREATED_AT,
 				Order.DESC, 50, Scope.FUTURE_AND_PAST, handler);
 	}
 

@@ -49,9 +49,19 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="it.auh.citytracker.activity.SendActivity"
+            android:label="@string/send_activity_label">
+            
+        </activity>
+        
         <meta-data
 		    android:name="com.google.android.maps.v2.API_KEY"
 		    android:value="AIzaSyBrg0c7RjXOJfcMn5ZXChVUEJ-lQ_62lQE"/>
+        
+        <service
+            android:name=".data.service.CityTrackerRequestService"
+            android:exported="false" />
         
         <service android:name="it.auh.citytracker.GCMIntentService" />
 

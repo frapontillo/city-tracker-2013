@@ -1068,6 +1068,8 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_light=0x7f020087;
         public static final int ic_action_new_report=0x7f020088;
         public static final int ic_launcher=0x7f020089;
+        public static final int photo=0x7f02008a;
+        public static final int photo_view=0x7f02008b;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040024;
@@ -1109,19 +1111,30 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040017;
         public static final int abs__title=0x7f04001f;
         public static final int abs__up=0x7f04000b;
-        public static final int action_new_report=0x7f040037;
+        public static final int action_new_report=0x7f040042;
+        public static final int address=0x7f04003f;
+        public static final int button_send_report=0x7f040038;
+        public static final int checkbox_high=0x7f040039;
+        public static final int date=0x7f04003e;
         public static final int disableHome=0x7f040009;
+        public static final int edit_problem=0x7f04003a;
         public static final int edit_query=0x7f04002a;
         public static final int homeAsUp=0x7f040006;
         public static final int hybrid=0x7f040013;
+        public static final int imageView=0x7f04003b;
+        public static final int imageView1=0x7f040040;
         public static final int listMode=0x7f040002;
         public static final int map=0x7f040036;
+        public static final int name=0x7f04003c;
         public static final int none=0x7f040010;
         public static final int normal=0x7f040001;
+        public static final int problem=0x7f040041;
         public static final int satellite=0x7f040011;
+        public static final int send_problem=0x7f040037;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
+        public static final int surname=0x7f04003d;
         public static final int tabMode=0x7f040003;
         public static final int terrain=0x7f040012;
         public static final int useLogo=0x7f040004;
@@ -1153,8 +1166,12 @@ containing a value of this type.
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_main=0x7f030015;
-        public static final int sherlock_spinner_dropdown_item=0x7f030016;
-        public static final int sherlock_spinner_item=0x7f030017;
+        public static final int activity_new_report=0x7f030016;
+        public static final int info_account=0x7f030017;
+        public static final int photo=0x7f030018;
+        public static final int problem_description=0x7f030019;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
+        public static final int sherlock_spinner_item=0x7f03001b;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -1199,8 +1216,10 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090007;
-        public static final int action_new_report=0x7f090024;
-        public static final int action_settings=0x7f090023;
+        public static final int action_new_report=0x7f090025;
+        public static final int action_settings=0x7f090024;
+        /**  ACTIVITY LABELS 
+         */
         public static final int app_name=0x7f090022;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
@@ -1266,7 +1285,11 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f09001b;
-        public static final int hello_world=0x7f090025;
+        public static final int hello_world=0x7f090026;
+        public static final int hpriority=0x7f09002a;
+        public static final int info=0x7f090027;
+        public static final int loading=0x7f09002b;
+        public static final int loading_wait=0x7f09002c;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -1278,6 +1301,9 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f09001f;
         public static final int location_client_ulr_inactive_age_unknown=0x7f090020;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f090021;
+        public static final int photo=0x7f090029;
+        public static final int send=0x7f090028;
+        public static final int send_activity_label=0x7f090023;
     }
     public static final class style {
         /** 

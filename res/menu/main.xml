@@ -4,6 +4,6 @@
         android:id="@+id/action_new_report"
         android:showAsAction="always"
         android:title="@string/action_new_report"
-        android:icon="@drawable/ic_action_new_report"/>
+        android:icon="@drawable/ic_action_new_report" />
 
 </menu>
