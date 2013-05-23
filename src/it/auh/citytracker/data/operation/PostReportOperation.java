@@ -32,6 +32,8 @@ public class PostReportOperation implements Operation {
 		
 		Log.d(TAG, "PostReportOperation started");
 		
+		// TODO: aggiungere foto e ottenere link
+		
 		CloudEntity ce = new CloudEntity(Tables.Issue.NAME);
 		ce.put(Tables.Issue.DESCRIPTION, desc);
 		ce.put(Tables.Issue.LATITUDE, latitude);
@@ -55,12 +57,6 @@ public class PostReportOperation implements Operation {
 			backend.insert(ce);
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
-		}
-		
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 		
 		Log.d(TAG, "PostReportOperation finished");

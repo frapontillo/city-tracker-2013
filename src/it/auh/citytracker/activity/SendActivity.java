@@ -168,6 +168,7 @@ public class SendActivity extends SherlockFragmentActivity implements
 	public void onRequestFinished(Request request, Bundle resultData) {
 		Log.i(TAG, "OK");
 		hideTheDialog();
+		finish();
 	}
 
 	@Override

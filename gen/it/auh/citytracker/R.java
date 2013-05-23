@@ -1286,9 +1286,8 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f09001b;
         public static final int error_connection=0x7f09002d;
-        public static final int hello_world=0x7f090026;
-        public static final int hpriority=0x7f09002a;
-        public static final int info=0x7f090027;
+        public static final int hpriority=0x7f090029;
+        public static final int info=0x7f090026;
         public static final int loading=0x7f09002b;
         public static final int loading_wait=0x7f09002c;
         /**  Location client code resources (prefix with location_client) 
@@ -1302,9 +1301,10 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f09001f;
         public static final int location_client_ulr_inactive_age_unknown=0x7f090020;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f090021;
-        public static final int photo=0x7f090029;
-        public static final int send=0x7f090028;
+        public static final int photo=0x7f090028;
+        public static final int send=0x7f090027;
         public static final int send_activity_label=0x7f090023;
+        public static final int wait_for_location=0x7f09002a;
     }
     public static final class style {
         /** 

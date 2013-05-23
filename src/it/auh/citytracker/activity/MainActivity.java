@@ -1,6 +1,7 @@
 package it.auh.citytracker.activity;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import it.auh.citytracker.CloudCallbackHandler;
@@ -10,12 +11,18 @@ import it.auh.citytracker.R;
 import it.auh.citytracker.CloudQuery.Order;
 import it.auh.citytracker.CloudQuery.Scope;
 import it.auh.citytracker.cloud.SherlockFragmentCloudBackendActivity;
+import it.auh.citytracker.cloud.Tables;
+import it.auh.citytracker.utils.StringUtils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -34,6 +41,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
 	private List<CloudEntity> mIssues;
+	private boolean alreadyCentered;
 
 	// These settings are the same as the settings for the map. They will in
 	// fact give you updates at
@@ -42,6 +50,8 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 			.setInterval(5000) // 5 seconds
 			.setFastestInterval(16) // 16ms = 60fps
 			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+	
+	private static final String ALREADY_CENTERED = "ALREADY_CENTERED";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +68,18 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_new_report) {
-			// Opens SendActivity
-			Intent intent = new Intent(this, SendActivity.class);
-			intent.putExtra(Consts.BUNDLE_LATITUDE, getLatitude());
-			intent.putExtra(Consts.BUNDLE_LONGITUDE, getLongitude());
-			startActivity(intent);
+			double lat = getLatitude();
+			double lon = getLongitude();
+			if (lat+lon >= 0) {
+				// Opens SendActivity
+				Intent intent = new Intent(this, SendActivity.class);
+				intent.putExtra(Consts.BUNDLE_LATITUDE, lat);
+				intent.putExtra(Consts.BUNDLE_LONGITUDE, lon);
+				startActivity(intent);
+			} else {
+				Toast.makeText(this, getString(R.string.wait_for_location),
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -71,6 +88,18 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	protected void onPostCreate() {
 		super.onPostCreate();
 		getAllIssues();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(ALREADY_CENTERED, alreadyCentered);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		alreadyCentered = savedInstanceState.getBoolean(ALREADY_CENTERED);
 	}
 
 	@Override
@@ -94,7 +123,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		if (loc != null) {
 			return loc.getLatitude();
 		}
-		return 0;
+		return -1;
 	}
 	
 	private double getLongitude() {
@@ -102,7 +131,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		if (loc != null) {
 			return loc.getLongitude();
 		}
-		return 0;
+		return -1;
 	}
 
 	/**
@@ -125,7 +154,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		};
 
 		// execute the query with the handler
-		getCloudBackend().listByKind("Issue_1", CloudEntity.PROP_CREATED_AT,
+		getCloudBackend().listByKind(Tables.Issue.NAME, CloudEntity.PROP_CREATED_AT,
 				Order.DESC, 50, Scope.FUTURE_AND_PAST, handler);
 	}
 
@@ -133,8 +162,18 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	 * Converts Issues into maps point, updating the UI
 	 */
 	private void updateIssuesOnMap() {
+		mMap.clear();
 		for (CloudEntity issue : mIssues) {
-			// TODO: add marker on map
+			BigDecimal lat = (BigDecimal) issue.get(Tables.Issue.LATITUDE);
+			BigDecimal lon = (BigDecimal) issue.get(Tables.Issue.LONGITUDE);
+			String desc = (String) issue.get(Tables.Issue.DESCRIPTION);
+			boolean high = (Boolean) issue.get(Tables.Issue.HIGH_PRIORITY);
+			float color = high ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_AZURE;
+			
+			mMap.addMarker(new MarkerOptions()
+		        .position(new LatLng(lat.doubleValue(), lon.doubleValue()))
+		        .title(StringUtils.substring(desc, 0, 10))
+		        .icon(BitmapDescriptorFactory.defaultMarker(color)));
 		}
 	}
 
@@ -167,6 +206,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	 * Gets the current Location as required, without needing to register a
 	 * LocationListener.
 	 */
+	@SuppressWarnings("unused")
 	private void showMyLocation() {
 		if (mLocationClient != null && mLocationClient.isConnected()) {
 			String msg = "Location = " + mLocationClient.getLastLocation();
@@ -176,8 +216,11 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-
+		if (!alreadyCentered) {
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+					new LatLng(location.getLatitude(), location.getLongitude()), 18));
+			alreadyCentered = true;
+		}
 	}
 
 	/**
