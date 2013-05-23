@@ -10,12 +10,11 @@
     <string name="info">Write Problem</string>
 
     <string name="send">Send</string>
-
     <string name="photo">Take Photo</string>
-
     <string name="hpriority">High Priority?</string>
     
     <string name="loading">Loading</string>
     <string name="loading_wait">Uploading the report, please wait&#8230;</string>
+    <string name="error_connection">Error while uploading the report, please try again.</string>
 
 </resources>

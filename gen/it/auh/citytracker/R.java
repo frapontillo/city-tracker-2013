@@ -1285,6 +1285,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f09001b;
+        public static final int error_connection=0x7f09002d;
         public static final int hello_world=0x7f090026;
         public static final int hpriority=0x7f09002a;
         public static final int info=0x7f090027;

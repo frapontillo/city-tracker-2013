@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -35,8 +36,9 @@ public class SendActivity extends SherlockFragmentActivity implements
 	private boolean highPriority;
 	
 	private Request r;
-	private ProgressDialog d;
+	private ProgressDialog mDialog;
 	
+	private static final String DIALOG_SHOWN = "DIALOG_SHOWN";
 	private static final String PARCELABLE_REQUEST = "PARCELABLE_REQUEST";
 
 	@Override
@@ -64,18 +66,6 @@ public class SendActivity extends SherlockFragmentActivity implements
 		latitude = b.getDouble(Consts.BUNDLE_LATITUDE);
 		longitude = b.getDouble(Consts.BUNDLE_LONGITUDE);
 	}
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putParcelable(PARCELABLE_REQUEST, r);
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		r = (Request) savedInstanceState.get(PARCELABLE_REQUEST);
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -86,38 +76,75 @@ public class SendActivity extends SherlockFragmentActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    	super.onSaveInstanceState(outState);
+
+    	if (mDialog != null && mDialog.isShowing()) {
+        	// Dismiss the dialog, in order to avoid a memory leak
+    		hideTheDialog();
+        	// Adds the status to the outState Bundle
+        	outState.putBoolean(DIALOG_SHOWN, true);
+        	outState.putParcelable(PARCELABLE_REQUEST, r);
+    	} else
+    		outState.putBoolean(DIALOG_SHOWN, false);
+    }
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	mRequestManager.removeRequestListener(this);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    	super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+        	r = savedInstanceState.getParcelable(PARCELABLE_REQUEST);
+        	// Show the dialog, if there has to be one
+        	if (savedInstanceState.getBoolean(DIALOG_SHOWN))
+        		showTheDialog();
+        }
+    }
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (r != null) {
-			showProgress();
-		} else hideProgress();
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (r != null) {
-			hideProgress();
-		}
-	}
-	
-	private void showProgress() {
-		if (d == null) d = new ProgressDialog(this);
-		d.setCanceledOnTouchOutside(false);
-		d.setIndeterminate(true);
-		d.setTitle(getString(R.string.loading));
-		d.setMessage(getString(R.string.loading_wait));
-		d.show();
-	}
-	
-	private void hideProgress() {
-		if (d != null) {
-			if (d.isShowing()) d.dismiss();
-			d = null;
-		}
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Add the listener so we can listen to a response
+        if (r != null && mRequestManager.isRequestInProgress(r))
+        	mRequestManager.addRequestListener(this, r);
+        // If there is a dialog, then display it
+        if (mDialog != null) {
+        	mDialog.show();
+        }
+    }
+    
+    /**
+     * Show the dialog with the current parameters.
+     */
+    private void showTheDialog() {
+
+        // Dialog, not dismissable by the user
+        mDialog = ProgressDialog.show(
+        		this,
+        		getString(R.string.loading),
+        		getString(R.string.loading_wait),
+        		true, false, null);
+		Log.d(TAG, "Showing the dialog " + mDialog.hashCode());
+    }
+
+    /**
+     * Hides the current dialog, if any.
+     */
+    private void hideTheDialog() {
+		Log.d(TAG, "Hiding the dialog " + mDialog.hashCode());
+    	if (mDialog != null) {
+    		mDialog.dismiss();
+    		mDialog = null;
+    	}
+    }
 	
 	private void sendReport() {
 		r = CityTrackerRequestFactory.getPostRequest();
@@ -130,34 +157,37 @@ public class SendActivity extends SherlockFragmentActivity implements
 		r.setMemoryCacheEnabled(true);
 		mRequestManager.execute(r, this);
 		
-		showProgress();
+		showTheDialog();
+	}
+	
+	private void handleError() {
+		Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public void onRequestFinished(Request request, Bundle resultData) {
-		// TODO Auto-generated method stub
 		Log.i(TAG, "OK");
-		hideProgress();
+		hideTheDialog();
 	}
 
 	@Override
 	public void onRequestConnectionError(Request request, int statusCode) {
-		// TODO Auto-generated method stub
 		Log.e(TAG, "Connection error");
-		hideProgress();
+		hideTheDialog();
+		handleError();
 	}
 
 	@Override
 	public void onRequestDataError(Request request) {
-		// TODO Auto-generated method stub
 		Log.e(TAG, "Data error");
-		hideProgress();
+		hideTheDialog();
+		handleError();
 	}
 
 	@Override
 	public void onRequestCustomError(Request request, Bundle resultData) {
-		// TODO Auto-generated method stub
 		Log.e(TAG, "Custom error");
-		hideProgress();
+		hideTheDialog();
+		handleError();
 	}
 }

@@ -57,6 +57,12 @@ public class PostReportOperation implements Operation {
 			Log.e(TAG, e.getMessage());
 		}
 		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		Log.d(TAG, "PostReportOperation finished");
 		
 		return null;
