@@ -1,4 +1,14 @@
-package it.auh.citytracker;
+package it.auh.citytracker.activity;
+
+import java.io.IOException;
+import java.util.List;
+
+import it.auh.citytracker.CloudCallbackHandler;
+import it.auh.citytracker.CloudEntity;
+import it.auh.citytracker.R;
+import it.auh.citytracker.CloudQuery.Order;
+import it.auh.citytracker.CloudQuery.Scope;
+import it.auh.citytracker.cloud.SherlockFragmentCloudBackendActivity;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -16,12 +26,14 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends SherlockFragmentActivity implements
-	ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class MainActivity extends SherlockFragmentCloudBackendActivity
+		implements ConnectionCallbacks, OnConnectionFailedListener,
+		LocationListener {
 
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
-	
+	private List<CloudEntity> mIssues;
+
 	// These settings are the same as the settings for the map. They will in
 	// fact give you updates at
 	// the maximal rates currently possible.
@@ -49,6 +61,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 	}
 
 	@Override
+	protected void onPostCreate() {
+		super.onPostCreate();
+		getAllIssues();
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		setUpMapIfNeeded();
@@ -64,6 +82,43 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 
+	/**
+	 * Executes "SELECT * FROM Issues ORDER BY _createdAt DESC LIMIT 50"
+	 * This query will be re-executed when matching entity is updated.
+	 */
+	private void getAllIssues() {
+		// Create a response handler that will receive the query result or an error
+		CloudCallbackHandler<List<CloudEntity>> handler = new CloudCallbackHandler<List<CloudEntity>>() {
+			@Override
+			public void onComplete(List<CloudEntity> results) {
+				mIssues = results;
+				updateIssuesOnMap();
+			}
+
+			@Override
+			public void onError(IOException exception) {
+				handleEndpointException(exception);
+			}
+		};
+
+		// execute the query with the handler
+		getCloudBackend().listByKind("Issues_1", CloudEntity.PROP_CREATED_AT,
+				Order.DESC, 50, Scope.FUTURE_AND_PAST, handler);
+	}
+
+	/**
+	 * Converts Issues into maps point, updating the UI
+	 */
+	private void updateIssuesOnMap() {
+		for (CloudEntity issue : mIssues) {
+			// TODO: add marker on map
+		}
+	}
+
+	private void handleEndpointException(IOException e) {
+		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+	}
+
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the
 		// map.
@@ -77,10 +132,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 			}
 		}
 	}
+
 	private void setUpLocationClientIfNeeded() {
 		if (mLocationClient == null) {
-			mLocationClient = new LocationClient(this,
-					this, // ConnectionCallbacks
+			mLocationClient = new LocationClient(this, this, // ConnectionCallbacks
 					this); // OnConnectionFailedListener
 		}
 	}

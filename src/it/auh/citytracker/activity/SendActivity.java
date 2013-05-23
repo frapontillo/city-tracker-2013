@@ -1,4 +1,4 @@
-package it.auh.citytracker;
+package it.auh.citytracker.activity;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 

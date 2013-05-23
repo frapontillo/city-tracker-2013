@@ -11,11 +11,19 @@
     <permission
         android:name="it.auh.citytracker.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
-    
 	<uses-permission android:name="it.auh.citytracker.permission.MAPS_RECEIVE"/>
+	
+	<permission android:name="it.auh.citytracker.permission.C2D_MESSAGE" 
+        android:protectionLevel="signature" />
+    <uses-permission android:name="it.auh.citytracker.permission.C2D_MESSAGE" />
+    
+    
 	<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 	<!-- The following two permissions are not required to use
 	     Google Maps Android API v2, but are recommended. -->
@@ -32,7 +40,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="it.auh.citytracker.MainActivity"
+            android:name="it.auh.citytracker.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +52,18 @@
         <meta-data
 		    android:name="com.google.android.maps.v2.API_KEY"
 		    android:value="AIzaSyBrg0c7RjXOJfcMn5ZXChVUEJ-lQ_62lQE"/>
+        
+        <service android:name="it.auh.citytracker.GCMIntentService" />
+
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="it.auh.citytracker" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
