@@ -4,3 +4,6 @@
 [submodule "submods/DataDroid"]
 	path = submods/DataDroid
 	url = git://github.com/foxykeep/DataDroid.git
+[submodule "submods/picasso"]
+	path = submods/picasso
+	url = git://github.com/square/picasso.git

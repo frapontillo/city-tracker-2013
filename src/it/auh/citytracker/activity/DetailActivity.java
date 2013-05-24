@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.ShareActionProvider;
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends SherlockActivity {
 	
@@ -52,8 +52,8 @@ public class DetailActivity extends SherlockActivity {
 		mUser = b.getString(Consts.BUNDLE_USER);
 		mDate = b.getLong(Consts.BUNDLE_DATE);
 		mDescription = b.getString(Consts.BUNDLE_DESCRIPTION);
-		mUrl = b.getString(Consts.BUNDLE_URL);
-		isImportant = b.getBoolean(Consts.BUNDLE_IMPORTANT);
+		mUrl = b.getString(Consts.BUNDLE_IMAGE_URL);
+		isImportant = b.getBoolean(Consts.BUNDLE_HIGH_PRIORITY);
 		
 		bindModelToView();
 	}
@@ -65,7 +65,8 @@ public class DetailActivity extends SherlockActivity {
 		mTextViewDescription.setText(mDescription);
 		if (mUrl != null && !mUrl.equals("")) {
 			mLayoutImage.setVisibility(View.VISIBLE);
-			// TODO: set image view URL
+			// Set the image URL
+			Picasso.with(this).load(mUrl).into(mImageViewImage);
 		} else {
 			mLayoutImage.setVisibility(View.GONE);
 		}
@@ -100,7 +101,8 @@ public class DetailActivity extends SherlockActivity {
      *
      * @return The sharing intent.
      */
-    private Intent createShareIntent() {    	
+    @SuppressWarnings("unused")
+	private Intent createShareIntent() {    	
         String shareString = String.format(
         		getString(R.string.share_issue));
         

@@ -1,15 +1,15 @@
 package it.auh.citytracker.utils;
 
-import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 public final class UriUtils {
 
-	public static String getRealPathFromURI(Uri contentUri, Activity activity) {
+	public static String getRealPathFromURI(Uri contentUri, Context context) {
 		String[] proj = { MediaStore.Images.Media.DATA };
-		Cursor cursor = activity.managedQuery(contentUri, proj, null, null, null);
+		Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
 
 		if (cursor == null)
 			return null;

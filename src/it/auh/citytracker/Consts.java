@@ -78,9 +78,8 @@ public interface Consts {
 	public static final String BUNDLE_LONGITUDE = "LONGITUDE";
 	public static final String BUNDLE_HIGH_PRIORITY = "HIGH_PRIORITY";
 
-	public static final String BUNDLE_IMPORTANT = "BUNDLE_IMPORTANT";
 	public static final String BUNDLE_USER = "BUNDLE_USER";
 	public static final String BUNDLE_DATE = "BUNDLE_DATE";
-	public static final String BUNDLE_URL = "BUNDLE_URL";
 	public static final String BUNDLE_IMAGE_LOCAL = "BUNDLE_IMAGE_LOCAL";
+	public static final String BUNDLE_IMAGE_URL = "BUNDLE_IMAGE_URL";
 }

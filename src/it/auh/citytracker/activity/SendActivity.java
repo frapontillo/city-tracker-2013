@@ -8,12 +8,14 @@ import it.auh.citytracker.utils.StringUtils;
 import it.auh.citytracker.utils.UriUtils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +27,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.foxykeep.datadroid.requestmanager.Request;
 import com.foxykeep.datadroid.requestmanager.RequestManager;
@@ -53,11 +54,13 @@ public class SendActivity extends SherlockActivity implements
 	private AlertDialog mChooseDialog;
 	private String path;
 	private Bitmap bitmap;
+	private Uri preinsertedUri;
 	
 	private static final String DIALOG_SHOWN = "DIALOG_SHOWN";
 	private static final String PARCELABLE_REQUEST = "PARCELABLE_REQUEST";
 	private static final String CHOOSE_DIALOG_SHOWN = "CHOOSE_DIALOG_SHOWN";
 	private static final String IMAGE_PATH = "IMAGE_PATH";
+	private static final String PREINSERTED_URI = "PREINSERTED_URI";
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int PICK_FROM_FILE = 2;
 
@@ -111,6 +114,10 @@ public class SendActivity extends SherlockActivity implements
         	if (savedInstanceState.getBoolean(CHOOSE_DIALOG_SHOWN))
         		showChooseImage();
 			path = savedInstanceState.getString(IMAGE_PATH);
+			String strUri = savedInstanceState.getString(PREINSERTED_URI);
+			if (!StringUtils.isEmpty(strUri)) {
+				preinsertedUri = Uri.parse(strUri);
+			}
         }
         
 	}
@@ -146,6 +153,7 @@ public class SendActivity extends SherlockActivity implements
     	}
     	
     	outState.putString(IMAGE_PATH, path);
+    	outState.putString(PREINSERTED_URI, preinsertedUri != null ? preinsertedUri.toString() : null);
     }
     
     @Override
@@ -196,7 +204,10 @@ public class SendActivity extends SherlockActivity implements
 			public void onClick(DialogInterface dialog, int item) {
 				if (item == 0) {
 					try {
-						Intent intent = new Intent( android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+						preinsertedUri = getContentResolver().insert(
+								MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+						Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+						intent.putExtra(MediaStore.EXTRA_OUTPUT, preinsertedUri);
 						startActivityForResult(intent, PICK_FROM_CAMERA);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -222,30 +233,30 @@ public class SendActivity extends SherlockActivity implements
 		mChooseDialog.show();
 	}
     
-
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != RESULT_OK)
 			return;
 		
+		Uri cUri;
+		
 		// From file
 		if (requestCode == PICK_FROM_FILE) {
 			Uri mImageCaptureUri = data.getData();
-			// From Gallery
-			path = UriUtils.getRealPathFromURI(mImageCaptureUri, this);
-			// From File Manager
-			if (path == null)
-				path = mImageCaptureUri.getPath();
-
-			if (path != null)
-				bitmap = BitmapFactory.decodeFile(path);
+			cUri = mImageCaptureUri;
 		} else {
 			// From camera
-			Uri uri = data.getData();
-			path = UriUtils.getRealPathFromURI(uri, this);
-			bitmap = (Bitmap) data.getExtras().get("data");
+			Uri uri = preinsertedUri;
+			cUri = uri;
 		}
+		
+		// From Gallery
+		path = UriUtils.getRealPathFromURI(cUri, this);
+		// From File Manager
+		if (path == null)
+			path = cUri.getPath();
+		if (path != null)
+			bitmap = BitmapFactory.decodeFile(path);
 
 		mImage.setImageBitmap(bitmap);
 		mAttach.setVisibility(View.GONE);
@@ -284,6 +295,7 @@ public class SendActivity extends SherlockActivity implements
 		r.put(Consts.BUNDLE_LATITUDE, latitude);
 		r.put(Consts.BUNDLE_LONGITUDE, longitude);
 		r.put(Consts.BUNDLE_HIGH_PRIORITY, highPriority);
+		r.put(Consts.BUNDLE_IMAGE_LOCAL, path);
 		r.setMemoryCacheEnabled(true);
 		mRequestManager.execute(r, this);
 		

@@ -198,6 +198,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		i.putExtra(Consts.BUNDLE_DATE, issue.getCreatedAt().getTime());
 		i.putExtra(Consts.BUNDLE_DESCRIPTION, (String)issue.get(Tables.Issue.DESCRIPTION));
 		i.putExtra(Consts.BUNDLE_HIGH_PRIORITY, (Boolean)issue.get(Tables.Issue.HIGH_PRIORITY));
+		i.putExtra(Consts.BUNDLE_IMAGE_URL, (String)issue.get(Tables.Issue.IMAGE_URL));
 		startActivity(i);
 	}
 
