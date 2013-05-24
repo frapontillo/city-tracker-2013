@@ -23,8 +23,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,7 +41,7 @@ import android.widget.Toast;
 
 public class MainActivity extends SherlockFragmentCloudBackendActivity
 		implements ConnectionCallbacks, OnConnectionFailedListener,
-		LocationListener, OnMarkerClickListener, OnInfoWindowClickListener {
+		LocationListener, OnInfoWindowClickListener {
 
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
@@ -201,11 +199,6 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		i.putExtra(Consts.BUNDLE_DESCRIPTION, (String)issue.get(Tables.Issue.DESCRIPTION));
 		i.putExtra(Consts.BUNDLE_HIGH_PRIORITY, (Boolean)issue.get(Tables.Issue.HIGH_PRIORITY));
 		startActivity(i);
-	}
-	
-	@Override
-	public boolean onMarkerClick(Marker marker) {
-		return false;
 	}
 
 	private void handleEndpointException(IOException e) {

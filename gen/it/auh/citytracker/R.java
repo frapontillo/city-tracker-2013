@@ -1123,8 +1123,8 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040017;
         public static final int abs__title=0x7f04001f;
         public static final int abs__up=0x7f04000b;
-        public static final int action_new_report=0x7f04004b;
-        public static final int action_settings=0x7f04004c;
+        public static final int action_new_report=0x7f04004c;
+        public static final int action_settings=0x7f04004d;
         public static final int address=0x7f040048;
         public static final int buttonTakephoto=0x7f040044;
         public static final int button_attach_image=0x7f040038;
@@ -1142,6 +1142,7 @@ containing a value of this type.
         public static final int layout_sep=0x7f040040;
         public static final int listMode=0x7f040002;
         public static final int map=0x7f040036;
+        public static final int menu_share=0x7f04004b;
         public static final int name=0x7f040045;
         public static final int none=0x7f040010;
         public static final int normal=0x7f040001;
@@ -1197,8 +1198,9 @@ containing a value of this type.
         public static final int sherlock_spinner_item=0x7f03001d;
     }
     public static final class menu {
-        public static final int main=0x7f0b0000;
-        public static final int sender=0x7f0b0001;
+        public static final int detail=0x7f0b0000;
+        public static final int main=0x7f0b0001;
+        public static final int sender=0x7f0b0002;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1311,14 +1313,17 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f09001b;
-        public static final int error_connection=0x7f090034;
+        public static final int complete_using=0x7f090031;
+        public static final int error_connection=0x7f090038;
+        public static final int from_camera=0x7f09002f;
+        public static final int from_sd=0x7f090030;
         public static final int hint_issue_description=0x7f09002d;
-        public static final int hpriority=0x7f090030;
+        public static final int hpriority=0x7f090034;
         public static final int important=0x7f09002c;
         public static final int info=0x7f090028;
         public static final int issue_description=0x7f09002a;
-        public static final int loading=0x7f090032;
-        public static final int loading_wait=0x7f090033;
+        public static final int loading=0x7f090036;
+        public static final int loading_wait=0x7f090037;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -1330,12 +1335,15 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f09001f;
         public static final int location_client_ulr_inactive_age_unknown=0x7f090020;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f090021;
-        public static final int photo=0x7f09002f;
-        public static final int send=0x7f09002e;
+        public static final int menu_lbl_share=0x7f09003a;
+        public static final int photo=0x7f090033;
+        public static final int select_image=0x7f09002e;
+        public static final int send=0x7f090032;
         public static final int send_activity_label=0x7f090023;
+        public static final int share_issue=0x7f090039;
         public static final int title_activity_detail=0x7f090025;
         public static final int title_activity_sender=0x7f090024;
-        public static final int wait_for_location=0x7f090031;
+        public static final int wait_for_location=0x7f090035;
     }
     public static final class style {
         /** 

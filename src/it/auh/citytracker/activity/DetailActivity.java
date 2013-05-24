@@ -5,16 +5,19 @@ import java.util.Date;
 
 import it.auh.citytracker.Consts;
 import it.auh.citytracker.R;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 
-public class DetailActivity extends SherlockFragmentActivity {
+public class DetailActivity extends SherlockActivity {
 	
 	private ImageView mImageViewImportant;
 	private TextView mTextViewUser;
@@ -67,6 +70,20 @@ public class DetailActivity extends SherlockFragmentActivity {
 			mLayoutImage.setVisibility(View.GONE);
 		}
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO: This leads to crashing, investigate
+		/*
+		getSupportMenuInflater().inflate(R.menu.detail, menu);
+		
+		MenuItem shareItem = menu.findItem(R.id.menu_share);
+        ShareActionProvider actionProvider = (ShareActionProvider) shareItem.getActionProvider();
+		actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+		actionProvider.setShareIntent(createShareIntent());
+		*/
+		return true;
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -77,4 +94,19 @@ public class DetailActivity extends SherlockFragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+    
+    /**
+     * Creates a sharing {@link Intent} with the given text.
+     *
+     * @return The sharing intent.
+     */
+    private Intent createShareIntent() {    	
+        String shareString = String.format(
+        		getString(R.string.share_issue));
+        
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+        return shareIntent;
+    }
 }

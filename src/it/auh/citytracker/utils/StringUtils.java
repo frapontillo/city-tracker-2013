@@ -18,4 +18,8 @@ public final class StringUtils {
 		if (res.length() < lenght) res += "...";
 		return res;
 	}
+	
+	public static boolean isEmpty(String string) {
+		return (string == null || string.equals(""));
+	}
 }
