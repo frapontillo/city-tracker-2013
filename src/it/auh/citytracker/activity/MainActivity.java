@@ -93,7 +93,6 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 	@Override
 	protected void onPostCreate() {
 		super.onPostCreate();
-		getAllIssues();
 	}
 	
 	@Override
@@ -114,6 +113,7 @@ public class MainActivity extends SherlockFragmentCloudBackendActivity
 		setUpMapIfNeeded();
 		setUpLocationClientIfNeeded();
 		mLocationClient.connect();
+		getAllIssues();
 	}
 
 	@Override
