@@ -24,13 +24,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.foxykeep.datadroid.requestmanager.Request;
 import com.foxykeep.datadroid.requestmanager.RequestManager;
 import com.foxykeep.datadroid.requestmanager.RequestManager.RequestListener;
 
-public class SendActivity extends SherlockFragmentActivity implements
+public class SendActivity extends SherlockActivity implements
 		RequestListener {
 
 	private static final String TAG = null;
@@ -96,6 +97,23 @@ public class SendActivity extends SherlockFragmentActivity implements
 		latitude = b.getDouble(Consts.BUNDLE_LATITUDE);
 		longitude = b.getDouble(Consts.BUNDLE_LONGITUDE);
 	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+	
+        if (savedInstanceState != null) {
+        	r = savedInstanceState.getParcelable(PARCELABLE_REQUEST);
+        	// Show the dialog, if there has to be one
+        	if (savedInstanceState.getBoolean(DIALOG_SHOWN))
+        		showTheDialog();
+        	// Show the list dialog, if there has to be one
+        	if (savedInstanceState.getBoolean(CHOOSE_DIALOG_SHOWN))
+        		showChooseImage();
+			path = savedInstanceState.getString(IMAGE_PATH);
+        }
+        
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,23 +153,7 @@ public class SendActivity extends SherlockFragmentActivity implements
     	super.onPause();
     	mRequestManager.removeRequestListener(this);
     }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    	super.onRestoreInstanceState(savedInstanceState);
-
-        if (savedInstanceState != null) {
-        	r = savedInstanceState.getParcelable(PARCELABLE_REQUEST);
-        	// Show the dialog, if there has to be one
-        	if (savedInstanceState.getBoolean(DIALOG_SHOWN))
-        		showTheDialog();
-        	// Show the list dialog, if there has to be one
-        	if (savedInstanceState.getBoolean(CHOOSE_DIALOG_SHOWN))
-        		showChooseImage();
-			path = savedInstanceState.getString(IMAGE_PATH);
-        }
-    }
-	
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -243,7 +245,6 @@ public class SendActivity extends SherlockFragmentActivity implements
 			Uri uri = data.getData();
 			path = UriUtils.getRealPathFromURI(uri, this);
 			bitmap = (Bitmap) data.getExtras().get("data");
-
 		}
 
 		mImage.setImageBitmap(bitmap);
@@ -272,7 +273,6 @@ public class SendActivity extends SherlockFragmentActivity implements
 		Log.d(TAG, "Hiding the dialog " + mDialog.hashCode());
     	if (mDialog != null) {
     		mDialog.dismiss();
-    		mDialog = null;
     	}
     }
 	

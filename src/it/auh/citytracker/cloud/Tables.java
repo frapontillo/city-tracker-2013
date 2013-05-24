@@ -8,6 +8,7 @@ public final class Tables {
 		public static String LATITUDE = "latitude";
 		public static String LONGITUDE = "longitude";
 		public static String HIGH_PRIORITY = "high_priority";
+		public static String IMAGE_URL = "image_url";
 	}
 	
 }

@@ -82,4 +82,5 @@ public interface Consts {
 	public static final String BUNDLE_USER = "BUNDLE_USER";
 	public static final String BUNDLE_DATE = "BUNDLE_DATE";
 	public static final String BUNDLE_URL = "BUNDLE_URL";
+	public static final String BUNDLE_IMAGE_LOCAL = "BUNDLE_IMAGE_LOCAL";
 }

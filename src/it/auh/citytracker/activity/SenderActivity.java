@@ -120,6 +120,8 @@ public class SenderActivity extends Activity {
 
 		new UploadImage().execute(path);
 	}
+	
+	
 
 	private class UploadImage extends AsyncTask<String, Integer, Boolean> {
 		String upload_to;
